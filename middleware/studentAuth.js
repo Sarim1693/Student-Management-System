@@ -4,7 +4,7 @@ require('dotenv').config();
 const studentVerify=async(req, res, next)=>{
     try{
         const token=req.headers.authorization.split(' ')[1];
-        if(!token) res.status(201).json({message: "Nno Token Provided"});
+        if(!token) res.status(201).json({message: "No Token Provided"});
 
         const decoded= jwt.verify(token, process.env.JWT_SECRET_KEY);
         const user= await Student.findById(decoded.user_id);
