@@ -52,7 +52,9 @@ router.get('/:profId/viewSlot', studentVerify, async(req, res)=>{
     try{
         const {profId}=req.params;
         const slots=await available.find({profId});
-        
+        if(slots.length===0) {
+            return res.status(400).json({message: "No Slot is available"});
+        }
         const formattedSlots=slots.map(slot=>({
             startTime:slot.startTime.toLocaleString("en-IN",{
                 timeZone:'Asia/Kolkata',
