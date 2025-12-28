@@ -6,6 +6,7 @@ const Student=require('./../models/studentModel');
 const studentVerify=require('./../middleware/studentAuth');
 const available=require('./../models/availabilityModel');
 const Appointment=require('./../models/appointmentModel');
+const Available = require('./../models/availabilityModel');
 require('dotenv').config();
 router.post('/signup', async(req , res)=>{
     try{
@@ -103,6 +104,15 @@ router.post('/:profId/book', studentVerify, async(req, res)=>{
 
         if(!slot){
             return res.status(400).json({message: "No Slot Available"});
+        }
+
+        const bookingExists=await Appointment.findOne({
+            profId,
+            startTime:{$lt:et},
+            endTime:{$gt:st}
+        });
+        if(bookingExists){
+            return res.status(409).json({message: "Slot is already booked"});
         }
 
         const appointment=await Appointment({
