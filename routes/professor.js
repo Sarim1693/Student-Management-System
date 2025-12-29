@@ -56,7 +56,10 @@ router.post('/addTimeSlot', professorVerify, async (req, res) => {
     if (et <= st) {
       return res.status(400).json({ message: "End time must be after start time" });
     }
-
+    const currentTime=new Date();
+    if(st<=currentTime){
+        return res.status(400).json({message: "Cannot enter past time or date"})
+    }
     const newTime = new available({
       profId,
       startTime: st,
