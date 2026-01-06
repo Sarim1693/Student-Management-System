@@ -1,14 +1,14 @@
 const mongoose=require('mongoose');
 const appointmentSchemna=new mongoose.Schema({
-    studentId:{
+    appointmentGiver:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Student',
+        ref:'User',
         required:true
     },
-    profId:{
+    appointmentTaker:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Professor',
-        required:true
+        ref:'User',
+        default:null
     },
     startTime:{
         type:Date,
@@ -18,10 +18,9 @@ const appointmentSchemna=new mongoose.Schema({
         type:Date,
         required:true
     },
-    status:{
-        type:String,
-        enum:['booked', 'cancelled', 'completed'],
-        default:'booked'
+    isBooked:{
+        type:Boolean,
+        default:false
     }
 });
 const Appointment=mongoose.model('Appointment', appointmentSchemna);
